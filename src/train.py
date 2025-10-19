@@ -3,11 +3,10 @@ train.py
 
 Entrenador de modelo para TelcoVision.
 - Lee parámetros desde `params.yaml` (o CLI)
-- Usa el dataset procesado (`data/processed/telco_churn_processed.csv`)
-- Entrena un Pipeline (StandardScaler + RandomForest) con los parámetros configurados
+- Usa el dataset limpio (`data/processed/telco_churn_processed.csv`)
+- Entrena un modelo base (LogisticRegression o RandomForest, según params.yaml)
 - Calcula métricas: accuracy, precision, recall, f1, roc_auc
 - Guarda el modelo en `models/model.joblib` y las métricas en `models/metrics.json`
-- Permite logging en MLflow si está disponible
 
 Uso:
 python src/train.py --params params.yaml
@@ -25,6 +24,7 @@ import joblib
 import pandas as pd
 import yaml
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import (
     accuracy_score, precision_score, recall_score, f1_score, roc_auc_score
 )
@@ -74,20 +74,24 @@ def resolve_config(params: Dict[str, Any], cli: argparse.Namespace) -> Dict[str,
 # ---------- Modelo ----------
 
 def build_pipeline_from_params(model_cfg: Dict[str, Any], random_state: int) -> Pipeline:
-    """Crea Pipeline(StandardScaler -> RandomForest) con parámetros desde params."""
-    mtype = model_cfg.get("type", "RandomForest")
-    if mtype != "RandomForest":
-        raise ValueError("Sólo se soporta model.type=RandomForest en esta versión.")
+    """Crea Pipeline(StandardScaler -> Modelo) con parámetros desde params."""
+    mtype = model_cfg.get("type", "LogisticRegression")
+    params = (model_cfg.get("parameters", {}) or {}).copy()
+    params.setdefault("random_state", random_state)
 
-    rf_params = (model_cfg.get("parameters", {}) or {}).copy()
-    # Defaults sensatos si no vinieron en params.yaml
-    rf_params.setdefault("n_estimators", 200)
-    rf_params.setdefault("random_state", random_state)
-    rf_params.setdefault("n_jobs", -1)
+    if mtype == "RandomForest":
+        params.setdefault("n_estimators", 200)
+        params.setdefault("n_jobs", -1)
+        model = RandomForestClassifier(**params)
+    elif mtype == "LogisticRegression":
+        params.setdefault("max_iter", 200)
+        model = LogisticRegression(**params)
+    else:
+        raise ValueError("Sólo se soporta model.type=RandomForest o LogisticRegression.")
 
     pipe = Pipeline([
         ("scaler", StandardScaler()),
-        ("rf", RandomForestClassifier(**rf_params))
+        ("model", model)
     ])
     return pipe
 
