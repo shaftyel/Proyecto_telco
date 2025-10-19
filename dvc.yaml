@@ -1,0 +1,18 @@
+stages:
+    process_data:
+        cmd: python src/make_data.py --input data/raw/telco_churn.csv --out data/processed/telco_churn_processed.csv
+        deps:
+            - src/make_data.py
+            - data/raw/telco_churn.csv
+        outs:
+            - data/processed/telco_churn_processed.csv
+    train:
+        cmd: python src/train.py --params params.yaml
+        deps:
+            - src/train.py
+            - data/processed/telco_churn_processed.csv
+            - params.yaml
+        outs:
+            - models/model.joblib
+        metrics:
+            - models/metrics.json

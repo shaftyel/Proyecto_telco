@@ -1,0 +1,43 @@
+schema: '2.0'
+stages:
+  process_data:
+    cmd: python src/make_data.py --input data/raw/telco_churn.csv --out 
+      data/processed/telco_churn_processed.csv
+    deps:
+    - path: data/raw/telco_churn.csv
+      hash: md5
+      md5: 006527876bfe18c977d74eb4bc59443f
+      size: 873370
+    - path: src/make_data.py
+      hash: md5
+      md5: 66c1488377848667d76b0e356122cebe
+      size: 4264
+    outs:
+    - path: data/processed/telco_churn_processed.csv
+      hash: md5
+      md5: 8be7cc5220abd6a3d0cea632f02e0194
+      size: 1384340
+  train:
+    cmd: python src/train.py --params params.yaml
+    deps:
+    - path: data/processed/telco_churn_processed.csv
+      hash: md5
+      md5: 8be7cc5220abd6a3d0cea632f02e0194
+      size: 1384340
+    - path: params.yaml
+      hash: md5
+      md5: 9122cf308dac0bbdc83dfc7acc632068
+      size: 385
+    - path: src/train.py
+      hash: md5
+      md5: 4b3c9dacfe109bc7a3530cf1cab20f91
+      size: 8782
+    outs:
+    - path: models/metrics.json
+      hash: md5
+      md5: 69682fa45ad9f8a34894a3f4d86e1172
+      size: 157
+    - path: models/model.joblib
+      hash: md5
+      md5: d63a9a8ddff74aebae2b62ee6746d64d
+      size: 109218159
