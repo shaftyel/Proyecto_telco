@@ -1,3 +1,8 @@
+# dvc.yaml
+# Pipeline DVC para TelcoVision
+# - process_data: preprocesa el dataset raw y genera el procesado
+# - train: entrena el modelo y guarda artefactos y métricas
+
 stages:
     process_data:
         cmd: python src/make_data.py --input data/raw/telco_churn.csv --out data/processed/telco_churn_processed.csv

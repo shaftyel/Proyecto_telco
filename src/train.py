@@ -1,25 +1,16 @@
 """
 train.py
 
-Entrena un modelo RandomForest dentro de un Pipeline(StandardScaler -> RandomForest)
-usando parámetros definidos en params.yaml (y opcionalmente sobreescritos por CLI).
-
-- Lee params de --params (default: params.yaml)
-- Usa paths.processed_data / paths.model_path / paths.metrics_path (overrides por CLI)
-- Calcula métricas: accuracy, precision, recall, f1 y (si aplica) roc_auc
-- Guarda modelo (.joblib) y metrics (.json)
-- (Opcional) Loguea en MLflow si el paquete está instalado y hay MLFLOW_TRACKING_URI
+Entrenador de modelo para TelcoVision.
+- Lee parámetros desde `params.yaml` (o CLI)
+- Usa el dataset procesado (`data/processed/telco_churn_processed.csv`)
+- Entrena un Pipeline (StandardScaler + RandomForest) con los parámetros configurados
+- Calcula métricas: accuracy, precision, recall, f1, roc_auc
+- Guarda el modelo en `models/model.joblib` y las métricas en `models/metrics.json`
+- Permite logging en MLflow si está disponible
 
 Uso:
 python src/train.py --params params.yaml
-Opcionales:
-  --input   data/processed/telco_churn_processed.csv
-  --out     models/model.joblib
-  --metrics models/metrics.json
-  --target  churn
-  --test-size 0.2
-  --random-state 42
-  --no-mlflow  (para desactivar MLflow incluso si está disponible)
 """
 
 from __future__ import annotations

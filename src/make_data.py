@@ -1,21 +1,16 @@
 """
 make_data.py
 
-Contexto: TelcoVision - pipeline reproducible para predecir churn.
+Script de preprocesamiento para TelcoVision.
+- Lee el dataset crudo `data/raw/telco_churn.csv`
+- Limpia y transforma columnas (normaliza nombres, convierte tipos, rellena faltantes)
+- Elimina identificadores innecesarios
+- Codifica variables categóricas como dummies
+- Deja la columna objetivo `churn` como 0/1
+- Guarda el resultado en `data/processed/telco_churn_processed.csv`
 
-Este script prepara el dataset `data/raw/telco_churn.csv` para modelado:
-- Lee el CSV crudo
-- Normaliza nombres de columnas
-- Convierte `total_charges` a numérico y rellena faltantes
-- Reemplaza cadenas tipo 'No phone service' por 'No'
-- Codifica variables categóricas (dummies)
-- Guarda el CSV procesado en `data/processed/telco_churn_processed.csv` (por defecto)
-
-Uso (desde la raíz del proyecto):
-python src/make_data.py --out data/processed/telco_churn_processed.csv
-
-Entrada: CSV con columna `churn` (0/1), columnas demográficas y de servicio.
-Salida: CSV listo para entrenamiento con columnas numéricas y dummies.
+Uso:
+python src/make_data.py --input data/raw/telco_churn.csv --out data/processed/telco_churn_processed.csv
 """
 
 import argparse

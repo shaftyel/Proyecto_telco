@@ -1,3 +1,29 @@
+### params.yaml
+# Configuración del pipeline TelcoVision
+# - paths: rutas de entrada/salida de datos y artefactos
+# - target: columna objetivo para predicción
+# - split: parámetros de partición train/test
+# - model: tipo y parámetros del modelo a entrenar
+
+paths:
+  processed_data: data/processed/telco_churn_processed.csv
+  model_path: models/model.joblib
+  metrics_path: models/metrics.json
+
+target: churn
+
+split:
+  test_size: 0.2
+  random_state: 42
+
+model:
+  type: RandomForest
+  parameters:
+    n_estimators: 300
+    max_depth: null
+    min_samples_split: 2
+    min_samples_leaf: 1
+    class_weight: balanced_subsample
 paths:
   processed_data: data/processed/telco_churn_processed.csv
   model_path: models/model.joblib
