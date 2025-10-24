@@ -1,7 +1,0 @@
-[core]
-    remote = dags
-['remote "dags"']
-    url = https://dagshub.com/Nacho/Proyecto_Laboratorio_Mineria.dvc
-    auth = basic
-    user = Nacho
-    password = 510acf602f33d56b23f7d09f2a3651dfcd208bc4

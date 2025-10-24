@@ -1,0 +1,21 @@
+# Experimento 5: Logistic Regression - L1 (Lasso)
+# Regularización L1 para selección de features
+
+paths:
+  processed_data: data/processed/telco_churn_processed.csv
+  model_path: models/model.joblib
+  metrics_path: models/metrics.json
+
+target: churn
+
+test_size: 0.2
+random_state: 42
+
+model:
+  type: LogisticRegression
+  parameters:
+    max_iter: 1000
+    C: 0.1
+    penalty: l1
+    solver: liblinear
+    class_weight: balanced

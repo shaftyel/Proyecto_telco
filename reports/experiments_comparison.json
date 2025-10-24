@@ -1,0 +1,47 @@
+[
+  {
+    "config": "exp1_rf_baseline.yaml",
+    "status": "success",
+    "accuracy": 0.659,
+    "precision": 0.5251396648044693,
+    "recall": 0.6464924346629987,
+    "f1": 0.5795314426633786,
+    "roc_auc": 0.7215169357008485
+  },
+  {
+    "config": "exp2_rf_optimized.yaml",
+    "status": "success",
+    "accuracy": 0.6635,
+    "precision": 0.5537848605577689,
+    "recall": 0.38239339752407153,
+    "f1": 0.45240032546786,
+    "roc_auc": 0.6989316791125816
+  },
+  {
+    "config": "exp3_rf_regularized.yaml",
+    "status": "success",
+    "accuracy": 0.664,
+    "precision": 0.5323910482921084,
+    "recall": 0.6217331499312242,
+    "f1": 0.5736040609137056,
+    "roc_auc": 0.7198680455681485
+  },
+  {
+    "config": "exp4_logistic_baseline.yaml",
+    "status": "success",
+    "accuracy": 0.6555,
+    "precision": 0.5192307692307693,
+    "recall": 0.7056396148555708,
+    "f1": 0.5982507288629737,
+    "roc_auc": 0.7266008335215259
+  },
+  {
+    "config": "exp5_logistic_l1.yaml",
+    "status": "success",
+    "accuracy": 0.655,
+    "precision": 0.5184815184815185,
+    "recall": 0.7138927097661623,
+    "f1": 0.6006944444444444,
+    "roc_auc": 0.7262615468231851
+  }
+]

@@ -1,0 +1,21 @@
+# Experimento 2: Random Forest - Optimizado
+# Más árboles y profundidad para capturar patrones complejos
+
+paths:
+  processed_data: data/processed/telco_churn_processed.csv
+  model_path: models/model.joblib
+  metrics_path: models/metrics.json
+
+target: churn
+
+test_size: 0.2
+random_state: 42
+
+model:
+  type: RandomForest
+  parameters:
+    n_estimators: 300
+    max_depth: null  # Sin límite de profundidad
+    min_samples_split: 2
+    min_samples_leaf: 1
+    class_weight: balanced_subsample

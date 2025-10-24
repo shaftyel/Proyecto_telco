@@ -1,0 +1,21 @@
+# Experimento 1: Random Forest - Baseline
+# Configuración conservadora para establecer línea base
+
+paths:
+  processed_data: data/processed/telco_churn_processed.csv
+  model_path: models/model.joblib
+  metrics_path: models/metrics.json
+
+target: churn
+
+test_size: 0.2
+random_state: 42
+
+model:
+  type: RandomForest
+  parameters:
+    n_estimators: 100
+    max_depth: 10
+    min_samples_split: 5
+    min_samples_leaf: 2
+    class_weight: balanced

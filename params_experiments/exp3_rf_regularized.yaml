@@ -1,0 +1,22 @@
+# Experimento 3: Random Forest - Regularizado
+# Configuración conservadora para evitar overfitting
+
+paths:
+  processed_data: data/processed/telco_churn_processed.csv
+  model_path: models/model.joblib
+  metrics_path: models/metrics.json
+
+target: churn
+
+test_size: 0.2
+random_state: 42
+
+model:
+  type: RandomForest
+  parameters:
+    n_estimators: 200
+    max_depth: 15
+    min_samples_split: 10
+    min_samples_leaf: 5
+    max_features: sqrt
+    class_weight: balanced
