@@ -259,32 +259,46 @@ def train_and_save(cfg: Dict[str, Any], use_mlflow: bool) -> Tuple[Pipeline, Dic
             joblib.dump(model, model_path)
             print(f"[SAVE] Modelo guardado: {model_path}")
             
-            # Log del modelo como artefacto en MLflow
-            mlflow.log_artifact(str(model_path))
-            print("[MLFLOW] OK - Modelo registrado como artefacto")
-
-            # Guardar métricas localmente
+            # Guardar metricas localmente
             metrics_path.parent.mkdir(parents=True, exist_ok=True)
             with open(metrics_path, "w", encoding="utf-8") as f:
                 json.dump(metrics, f, indent=2)
-            print(f"[SAVE] Métricas guardadas: {metrics_path}")
+            print(f"[SAVE] Metricas guardadas: {metrics_path}")
             
-            # Log de métricas como artefacto
-            mlflow.log_artifact(str(metrics_path))
-            print("[MLFLOW] OK - Métricas registradas como artefacto")
+            # Detectar si es tracking remoto
+            tracking_uri = mlflow.get_tracking_uri()
+            is_remote = "dagshub" in tracking_uri or "http" in tracking_uri
             
-            # EXTRA: Intentar registrar el modelo en el Model Registry
-            try:
-                model_name = "TelcoChurn_Model"
-                mlflow.sklearn.log_model(
-                    model, 
-                    "model",
-                    registered_model_name=model_name
-                )
-                print(f"[MLFLOW] OK - Modelo registrado en Model Registry: {model_name}")
-            except Exception as e:
-                print(f"[MLFLOW] WARN -  No se pudo registrar en Model Registry: {e}")
-                print("[MLFLOW] (Esto es normal en algunos servidores remotos)")
+            if not is_remote:
+                # MODO LOCAL: Subir artifacts normalmente
+                print("[INFO] Modo LOCAL - Registrando artifacts en MLflow...")
+                try:
+                    mlflow.log_artifact(str(model_path))
+                    print("[MLFLOW] OK - Modelo registrado como artefacto")
+                    mlflow.log_artifact(str(metrics_path))
+                    print("[MLFLOW] OK - Metricas registradas como artefacto")
+                    
+                    # Registrar en Model Registry (solo local)
+                    model_name = "TelcoChurn_Model"
+                    mlflow.sklearn.log_model(
+                        model, 
+                        "model",
+                        registered_model_name=model_name
+                    )
+                    print(f"[MLFLOW] OK - Modelo registrado en Model Registry: {model_name}")
+                except Exception as e:
+                    print(f"[MLFLOW] WARN - Error al registrar artifacts: {e}")
+            else:
+                # MODO REMOTO: NO subir artifacts grandes
+                print("[INFO] Modo REMOTO (DagsHub) - Artifacts se gestionan con DVC")
+                print("[MLFLOW] SKIP - Modelo NO se sube (usar 'dvc push' para compartir)")
+                print("[MLFLOW] SKIP - Model Registry no disponible en remoto")
+                # Solo intentar subir metricas JSON (pequeno)
+                try:
+                    mlflow.log_artifact(str(metrics_path))
+                    print("[MLFLOW] OK - Metricas JSON registradas")
+                except Exception as e:
+                    print(f"[MLFLOW] WARN - No se pudo subir metricas JSON: {e}")
             
             print(f"\n[MLFLOW] Run completado: {run.info.run_id}")
             print(f"[MLFLOW] Ver en UI: http://localhost:5000 (si es local)")
