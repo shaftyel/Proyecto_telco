@@ -9,7 +9,7 @@ Sistema completo de Machine Learning con versionado de datos, tracking de experi
 ## 👥 Equipo
 
 - **Estudiantes:** 
-				Evelyn Solange Irusta
+				Evelyn Solange Irusta / 
 				Ignacio Heck
 - **Institución:** ISTEA
 - **Materia:** Laboratorio de Minería de Datos
