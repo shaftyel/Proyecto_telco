@@ -24,19 +24,19 @@ jobs:
         pip install --upgrade pip
         pip install -r requirements.txt
     
-    - name: Configurar credenciales DVC
-      env:
-        DAGSHUB_USER: ${{ secrets.DAGSHUB_USER }}
-        DAGSHUB_TOKEN: ${{ secrets.DAGSHUB_TOKEN }}
-      run: |
-        dvc remote add -d dagshub https://dagshub.com/Nacho/proyecto_telco.dvc
-        dvc remote modify dagshub --local auth basic
-        dvc remote modify dagshub --local user $DAGSHUB_USER
-        dvc remote modify dagshub --local password $DAGSHUB_TOKEN
+    #- name: Configurar credenciales DVC
+    #  env:
+    #    DAGSHUB_USER: ${{ secrets.DAGSHUB_USER }}
+    #    DAGSHUB_TOKEN: ${{ secrets.DAGSHUB_TOKEN }}
+    #  run: |
+    #    dvc remote add -d dagshub https://dagshub.com/Nacho/proyecto_telco.dvc
+    #    dvc remote modify dagshub --local auth basic
+    #    dvc remote modify dagshub --local user $DAGSHUB_USER
+    #    dvc remote modify dagshub --local password $DAGSHUB_TOKEN
     
-    - name: Pull datos con DVC
-      run: |
-        dvc pull
+    #- name: Pull datos con DVC
+    #  run: |
+    #    dvc pull
     
     - name: Ejecutar pipeline
       run: |
@@ -45,13 +45,13 @@ jobs:
     - name: Mostrar métricas
       run: |
         echo "📊 Métricas del modelo:"
-        cat metrics.json
+        cat models/metrics.json
     
     - name: Verificar precisión mínima
       run: |
         python -c "
         import json
-        with open('metrics.json') as f:
+        with open('models/metrics.json') as f:
             metrics = json.load(f)
         accuracy = metrics.get('accuracy', 0)
         print(f'Accuracy: {accuracy}')
@@ -69,5 +69,4 @@ jobs:
         name: model-artifacts
         path: |
           models/
-          metrics.json
           plots/
