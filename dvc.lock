@@ -26,8 +26,8 @@ stages:
       size: 1384340
     - path: params.yaml
       hash: md5
-      md5: 927a4efd0ecd22df259a2a543f96c605
-      size: 644
+      md5: d8722a2796afcf619e291ffbd5fc9537
+      size: 642
     - path: src/train.py
       hash: md5
       md5: d5716b624af23ff8498fdbbdbb14e1a5
@@ -35,12 +35,12 @@ stages:
     outs:
     - path: models/metrics.json
       hash: md5
-      md5: 69682fa45ad9f8a34894a3f4d86e1172
+      md5: 6ca56121cf6b123e04f036113fb55b01
       size: 157
     - path: models/model.joblib
       hash: md5
-      md5: a0e6415539ce4a500d77bcab31bc6a94
-      size: 109218159
+      md5: 71a9889967c565d7843feaca8f5ebe84
+      size: 103387599
   data_prep:
     cmd: python src/data_prep.py --input data/raw/telco_churn.csv --out 
       data/processed/telco_churn_processed.csv
