@@ -29,6 +29,7 @@ jobs:
         DAGSHUB_USER: ${{ secrets.DAGSHUB_USER }}
         DAGSHUB_TOKEN: ${{ secrets.DAGSHUB_TOKEN }}
       run: |
+        dvc remote add -d dagshub https://dagshub.com/Nacho/proyecto_telco.dvc
         dvc remote modify dagshub --local auth basic
         dvc remote modify dagshub --local user $DAGSHUB_USER
         dvc remote modify dagshub --local password $DAGSHUB_TOKEN
