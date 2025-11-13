@@ -319,3 +319,4 @@ Para consultas sobre este proyecto:
 **Proyecto desarrollado como parte del Trabajo Práctico Integrador de Laboratorio de Minería de Datos**
 
 *Octubre 2025* 
+ 
