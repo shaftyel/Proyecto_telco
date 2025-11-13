@@ -1,0 +1,72 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, dev, feat-* ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  train-and-validate:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout código
+      uses: actions/checkout@v3
+    
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+    
+    - name: Instalar dependencias
+      run: |
+        pip install --upgrade pip
+        pip install -r requirements.txt
+    
+    - name: Configurar credenciales DVC
+      env:
+        DAGSHUB_USER: ${{ secrets.DAGSHUB_USER }}
+        DAGSHUB_TOKEN: ${{ secrets.DAGSHUB_TOKEN }}
+      run: |
+        dvc remote modify origin --local auth basic
+        dvc remote modify origin --local user $DAGSHUB_USER
+        dvc remote modify origin --local password $DAGSHUB_TOKEN
+    
+    - name: Pull datos con DVC
+      run: |
+        dvc pull
+    
+    - name: Ejecutar pipeline
+      run: |
+        dvc repro
+    
+    - name: Mostrar métricas
+      run: |
+        echo "📊 Métricas del modelo:"
+        cat metrics.json
+    
+    - name: Verificar precisión mínima
+      run: |
+        python -c "
+        import json
+        with open('metrics.json') as f:
+            metrics = json.load(f)
+        accuracy = metrics.get('accuracy', 0)
+        print(f'Accuracy: {accuracy}')
+        if accuracy < 0.60:
+            print('❌ El modelo no cumple con el accuracy mínimo (60%)')
+            exit(1)
+        else:
+            print('✅ El modelo cumple con los requisitos')
+        "
+    
+    - name: Subir artefactos
+      uses: actions/upload-artifact@v3
+      if: always()
+      with:
+        name: model-artifacts
+        path: |
+          models/
+          metrics.json
+          plots/
