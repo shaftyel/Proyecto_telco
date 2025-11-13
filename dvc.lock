@@ -30,8 +30,8 @@ stages:
       size: 644
     - path: src/train.py
       hash: md5
-      md5: fd116d4d0afc7ad824f68635f471f555
-      size: 8553
+      md5: d5716b624af23ff8498fdbbdbb14e1a5
+      size: 14178
     outs:
     - path: models/metrics.json
       hash: md5
