@@ -276,5 +276,3 @@ El Experimento 5 minimiza los falsos negativos con el recall más alto.
 
 \*\*Fecha:\*\* Noviembre 2025  
 
-\*\*Etapa:\*\* 6 - Iteración Colaborativa ✅ COMPLETADA
-
