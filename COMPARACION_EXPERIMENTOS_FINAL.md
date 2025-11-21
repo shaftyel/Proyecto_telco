@@ -44,8 +44,7 @@ Se realizaron \*\*6 experimentos\*\* con diferentes configuraciones de Random Fo
 
 
 
-\### Configuración:
-
+### Configuración:
 ```yaml
 
 model:
