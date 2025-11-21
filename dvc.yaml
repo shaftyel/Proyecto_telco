@@ -1,8 +1,8 @@
 # dvc.yaml
 # Pipeline DVC para TelcoVision
-# - process_data: preprocesa el dataset raw y genera el procesado
+# - data_prep: preprocesa el dataset raw y genera el procesado
 # - train: entrena el modelo y guarda artefactos y métricas
-
+# - evaluate: genera métricas avanzadas y visualizaciones
 stages:
     data_prep:
         cmd: python src/data_prep.py --input data/raw/telco_churn.csv --out data/processed/telco_churn_processed.csv
@@ -11,6 +11,7 @@ stages:
             - data/raw/telco_churn.csv
         outs:
             - data/processed/telco_churn_processed.csv
+    
     train:
         cmd: python src/train.py --params params.yaml
         deps:
@@ -21,3 +22,20 @@ stages:
             - models/model.joblib
         metrics:
             - models/metrics.json
+    
+    evaluate:
+        cmd: python src/evaluate.py
+        deps:
+            - src/evaluate.py
+            - models/model.joblib
+            - data/processed/telco_churn_processed.csv
+            - params.yaml
+        plots:
+            - plots/confusion_matrix.png
+            - plots/roc_curve.png
+            - plots/precision_recall_curve.png
+        metrics:
+            - metrics/classification_report.json:
+                cache: false
+            - metrics/evaluation_summary.json:
+                cache: false
