@@ -26,29 +26,29 @@ stages:
       size: 1384340
     - path: params.yaml
       hash: md5
-      md5: 0c0a433333d24365fefe169ad0323fd7
-      size: 642
+      md5: 03aba0e0488b2d343ce6e07dffc01e84
+      size: 643
     - path: src/train.py
       hash: md5
-      md5: 0bf87563e5b59fcd9f060f7face6b212
-      size: 14544
+      md5: d5716b624af23ff8498fdbbdbb14e1a5
+      size: 14178
     outs:
     - path: models/metrics.json
       hash: md5
-      md5: e030dcbd6b4a58e278ced578d1a946be
+      md5: 2d19da7d1d037317ed84b3c6bff35399
       size: 158
     - path: models/model.joblib
       hash: md5
-      md5: 7cb49c73cb15690740ea7454f424aedb
-      size: 31889199
+      md5: f490fb9025a4b6277bd9f93c339a2831
+      size: 14296719
   data_prep:
     cmd: python src/data_prep.py --input data/raw/telco_churn.csv --out 
       data/processed/telco_churn_processed.csv
     deps:
     - path: data/raw/telco_churn.csv
       hash: md5
-      md5: ac40be7770ac4b2e22a43d2ec75a2bad
-      size: 883371
+      md5: 006527876bfe18c977d74eb4bc59443f
+      size: 873370
     - path: src/data_prep.py
       hash: md5
       md5: 67406076b8fafd91f36cb30c91a31501
@@ -67,12 +67,12 @@ stages:
       size: 1384340
     - path: models/model.joblib
       hash: md5
-      md5: 7cb49c73cb15690740ea7454f424aedb
-      size: 31889199
+      md5: f490fb9025a4b6277bd9f93c339a2831
+      size: 14296719
     - path: params.yaml
       hash: md5
-      md5: 0c0a433333d24365fefe169ad0323fd7
-      size: 642
+      md5: 03aba0e0488b2d343ce6e07dffc01e84
+      size: 643
     - path: src/evaluate.py
       hash: md5
       md5: 780994632289d1db8584373f66b7b1cd
@@ -80,21 +80,21 @@ stages:
     outs:
     - path: metrics/classification_report.json
       hash: md5
-      md5: 89e96c0d6a04223c8a4e805a8fc5c939
+      md5: c541d695de86b0ddce7393fe6ed71afe
       size: 710
     - path: metrics/evaluation_summary.json
       hash: md5
-      md5: cb1d15dbf7850e9e3d03536f2b85ca67
+      md5: 26fe848182fb7af1a5874d52132f698b
       size: 611
     - path: plots/confusion_matrix.png
       hash: md5
-      md5: 2f975e68e8ee72c3a0f19e11b33a9441
-      size: 84997
+      md5: 86e863abd1592c45430309ea466e480a
+      size: 81623
     - path: plots/precision_recall_curve.png
       hash: md5
-      md5: fa899d8e72ef1578b09fcad76a5ea0ed
-      size: 128272
+      md5: 9f94469df294b7c76eb30ac6dbcf3395
+      size: 128639
     - path: plots/roc_curve.png
       hash: md5
-      md5: 438f941e80fa25c40b3b39f1db6980ee
-      size: 189796
+      md5: eaa5603807273c8630a83071e905cc07
+      size: 189323
